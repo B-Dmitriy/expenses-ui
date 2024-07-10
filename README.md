@@ -1,2 +1,2 @@
 # expenses-ui
-Web user interface for expenses server.
+User web interface for expenses server.
