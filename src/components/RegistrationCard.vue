@@ -9,7 +9,7 @@
           Регистрация
         </h2>
 
-        <VLabel
+        <ExLabel
           for="login"
           text="Логин"
           :error="formErrors.login"
@@ -23,9 +23,9 @@
               :invalid="!!formErrors.login"
             />
           </IconField>
-        </VLabel>
+        </ExLabel>
 
-        <VLabel
+        <ExLabel
           for="login"
           text="Почта"
           :error="formErrors.email"
@@ -39,9 +39,9 @@
               :invalid="!!formErrors.email"
             />
           </IconField>
-        </VLabel>
+        </ExLabel>
 
-        <VLabel
+        <ExLabel
           for="password"
           text="Пароль"
           :error="formErrors.password"
@@ -58,9 +58,9 @@
             :input-style="{ width: '100%'}"
             :invalid="!!formErrors.password"
           />
-        </VLabel>
+        </ExLabel>
 
-        <VLabel
+        <ExLabel
           for="repeat-password"
           text="Повторите пароль"
           :error="formErrors.repeatPassword"
@@ -74,7 +74,7 @@
             :input-style="{ width: '100%'}"
             :invalid="!!formErrors.repeatPassword"
           />
-        </VLabel>
+        </ExLabel>
 
         <section class="registration-card__buttons">
           <Button
@@ -106,7 +106,7 @@ import InputText from 'primevue/inputtext'
 import InputIcon from 'primevue/inputicon'
 import IconField from 'primevue/iconfield'
 
-import VLabel from '@/components/VLabel.vue'
+import ExLabel from '@/components/ExLabel.vue'
 import { isEmail, shorterThan } from '@/utils/validate'
 
 const router = useRouter()

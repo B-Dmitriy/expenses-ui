@@ -9,7 +9,7 @@
           Войти
         </h2>
 
-        <VLabel
+        <ExLabel
           for="login"
           text="Почта"
           :error="formErrors.email"
@@ -23,9 +23,9 @@
               :invalid="!!formErrors.email"
             />
           </IconField>
-        </VLabel>
+        </ExLabel>
 
-        <VLabel
+        <ExLabel
           for="password"
           text="Пароль"
           :error="formErrors.password"
@@ -38,12 +38,13 @@
             :feedback="false"
             :invalid="!!formErrors.password"
           />
-        </VLabel>
+        </ExLabel>
 
         <p class="login-card__registration">
           Если у вас ещё нет аккаунта, вы можете
           <Button
             label="зарегестрироваться"
+            class="login-card__submit-btn"
             link
             @click="goToRegistration"
           />
@@ -71,7 +72,7 @@ import Password from 'primevue/password'
 import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 
-import VLabel from '@/components/VLabel.vue'
+import ExLabel from '@/components/ExLabel.vue'
 import { isEmail } from '@/utils/validate'
 
 const router = useRouter()
@@ -143,5 +144,9 @@ const submit = () => {
   margin-top: 12px;
   margin-bottom: 24px;
   text-align: center;
+}
+
+.p-button.login-card__submit-btn {
+  padding: 0;
 }
 </style>
