@@ -9,7 +9,7 @@
           Регистрация
         </h2>
 
-        <ExLabel
+        <BaseLabel
           for="login"
           text="Логин"
           :error="formErrors.login"
@@ -23,9 +23,9 @@
               :invalid="!!formErrors.login"
             />
           </IconField>
-        </ExLabel>
+        </BaseLabel>
 
-        <ExLabel
+        <BaseLabel
           for="login"
           text="Почта"
           :error="formErrors.email"
@@ -39,9 +39,9 @@
               :invalid="!!formErrors.email"
             />
           </IconField>
-        </ExLabel>
+        </BaseLabel>
 
-        <ExLabel
+        <BaseLabel
           for="password"
           text="Пароль"
           :error="formErrors.password"
@@ -58,9 +58,9 @@
             :input-style="{ width: '100%'}"
             :invalid="!!formErrors.password"
           />
-        </ExLabel>
+        </BaseLabel>
 
-        <ExLabel
+        <BaseLabel
           for="repeat-password"
           text="Повторите пароль"
           :error="formErrors.repeatPassword"
@@ -74,7 +74,13 @@
             :input-style="{ width: '100%'}"
             :invalid="!!formErrors.repeatPassword"
           />
-        </ExLabel>
+        </BaseLabel>
+
+        <BaseTypography
+            v-if="serverError"
+            type="error"
+            :text="serverError"
+        />
 
         <section class="registration-card__buttons">
           <Button
@@ -106,12 +112,16 @@ import InputText from 'primevue/inputtext'
 import InputIcon from 'primevue/inputicon'
 import IconField from 'primevue/iconfield'
 
-import ExLabel from '@/components/ExLabel.vue'
+import { api, PathAPI } from '@/api'
+import BaseLabel from '@/components/BaseLabel.vue'
 import { isEmail, shorterThan } from '@/utils/validate'
+import type { AxiosError } from 'axios'
+import BaseTypography from '@/components/BaseTypography.vue'
 
 const router = useRouter()
 
 const isFormHasError = ref(false)
+const serverError = ref('')
 
 interface FormData {
   login: string;
@@ -142,6 +152,7 @@ watch(formData.value, () => {
     repeatPassword: '',
   }
   isFormHasError.value = false
+  serverError.value = ''
 })
 
 const validateFormData = (formData: FormData) => {
@@ -169,7 +180,12 @@ const validateFormData = (formData: FormData) => {
 const submit = () => {
   validateFormData(formData.value)
   if (!isFormHasError.value) {
-    console.log(formData.value)
+    api.post(PathAPI.REGISTRATION, formData.value).then(() => {
+      router.push('/login')
+    }).catch((err: AxiosError<{ message: string }>) => {
+      isFormHasError.value = true
+      serverError.value = err.response?.data?.message || ''
+    })
   }
 }
 
@@ -183,12 +199,15 @@ const submit = () => {
   width: 360px;
   padding: 0 16px;
 }
+
 .registration-card__header {
   margin-bottom: 16px;
 }
+
 .registration-card__password {
   width: 100%;
 }
+
 .registration-card__buttons {
   display: flex;
   justify-content: space-between;

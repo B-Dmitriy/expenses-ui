@@ -9,7 +9,7 @@
           Войти
         </h2>
 
-        <ExLabel
+        <BaseLabel
           for="login"
           text="Почта"
           :error="formErrors.email"
@@ -23,9 +23,9 @@
               :invalid="!!formErrors.email"
             />
           </IconField>
-        </ExLabel>
+        </BaseLabel>
 
-        <ExLabel
+        <BaseLabel
           for="password"
           text="Пароль"
           :error="formErrors.password"
@@ -38,7 +38,13 @@
             :feedback="false"
             :invalid="!!formErrors.password"
           />
-        </ExLabel>
+        </BaseLabel>
+
+        <BaseTypography
+          v-if="serverError"
+          type="error"
+          :text="serverError"
+        />
 
         <p class="login-card__registration">
           Если у вас ещё нет аккаунта, вы можете
@@ -72,11 +78,17 @@ import Password from 'primevue/password'
 import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 
-import ExLabel from '@/components/ExLabel.vue'
+import { api, PathAPI } from '@/api'
 import { isEmail } from '@/utils/validate'
+import BaseLabel from '@/components/BaseLabel.vue'
+import BaseTypography from '@/components/BaseTypography.vue'
+import { LocalStorageKey, setToLocalStorage } from '@/utils/localStorage'
+
+import type { AxiosError } from 'axios'
 
 const router = useRouter()
 const isFormHasError = ref(false)
+const serverError = ref('')
 
 const goToRegistration = () => router.push('/registration')
 
@@ -101,6 +113,7 @@ watch(formData.value, () => {
     password: '',
   }
   isFormHasError.value = false
+  serverError.value = ''
 })
 
 const validateFormData = (formData: FormData) => {
@@ -113,7 +126,13 @@ const validateFormData = (formData: FormData) => {
 const submit = () => {
   validateFormData(formData.value)
   if (!isFormHasError.value) {
-    console.log(formData.value)
+    api.post(PathAPI.LOGIN, formData.value).then((res) => {
+      setToLocalStorage<string>(LocalStorageKey.JWT_TOKEN, res.data.accessToken)
+      router.push('/transactions')
+    }).catch((err: AxiosError<{ message: string }>) => {
+      isFormHasError.value = true
+      serverError.value = err.response?.data?.message || ''
+    })
   }
 }
 
@@ -144,9 +163,5 @@ const submit = () => {
   margin-top: 12px;
   margin-bottom: 24px;
   text-align: center;
-}
-
-.p-button.login-card__submit-btn {
-  padding: 0;
 }
 </style>

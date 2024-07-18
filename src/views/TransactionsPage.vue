@@ -1,12 +1,12 @@
 <template>
   <div class="transactions-page__wrapper">
     <header class="transactions-page__header">
-      <ExTypography
+      <BaseTypography
         text="Транзакции"
         type="h-page"
       />
       <button :onclick="goToLogin">
-        Login redirection
+        Logout
       </button>
     </header>
     <main>
@@ -19,13 +19,24 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
+import { api } from '@/api'
+import BaseTypography from '@/components/BaseTypography.vue'
 import TransactionsTable from '@/components/TransactionsTable.vue'
 import TransactionsTableHeader from '@/components/TransactionsTableHeader.vue'
-import ExTypography from '@/components/ExTypography.vue'
+import { LocalStorageKey, removeFromLocalStorage } from '@/utils/localStorage'
+
+import type { AxiosError } from 'axios'
 
 const router = useRouter()
 
-const goToLogin = () => router.push('/login')
+const goToLogin = () => {
+  api.post('/api/v1/logout').then(() => {
+    removeFromLocalStorage(LocalStorageKey.JWT_TOKEN)
+    router.push('/login')
+  }).catch((err: AxiosError<{ message: string }>) => {
+    console.log(err.response?.data?.message || 'Internal error')
+  })
+}
 </script>
 
 <style scoped>

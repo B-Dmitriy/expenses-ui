@@ -9,11 +9,12 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
-    "lint:fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . \"src/**/*.{js,ts,vue}\"",
+    "lint:fix": "eslint . \"src/**/*.{js,ts,vue}\" --fix"
   },
   "dependencies": {
     "@primevue/themes": "4.0.0",
+    "axios": "1.7.2",
     "primeicons": "7.0.0",
     "primevue": "4.0.0",
     "vue": "3.4.29",
@@ -29,7 +30,7 @@
     "eslint": "8.57.0",
     "eslint-plugin-vue": "9.27.0",
     "npm-run-all2": "6.2.0",
-    "typescript": "5.4.0",
+    "typescript": "5.5.3",
     "vite": "5.3.1",
     "vue-tsc": "2.0.21"
   }

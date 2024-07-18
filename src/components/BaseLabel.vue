@@ -5,11 +5,15 @@
   >
     <span>{{ props.text }}</span>
     <slot />
-    <span class="form-row__error">{{ error }}</span>
+    <BaseTypography
+      type="error" 
+      :text="error" 
+    />
   </label>
 </template>
 
 <script setup lang="ts">
+import BaseTypography from './BaseTypography.vue'
 const props = defineProps<{
   for: string
   text: string
@@ -23,11 +27,7 @@ const props = defineProps<{
   flex-direction: column;
   width: 100%;
 }
-.form-row__error {
-  min-height: 16px;
-  font-size: 14px;
-  color: #ff6c6c;
-}
+
 .form-row__label span {
   margin-left: 8px;
 }

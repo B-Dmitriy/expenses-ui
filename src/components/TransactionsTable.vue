@@ -36,6 +36,14 @@ import { ref } from 'vue'
 
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
+import { useRouter } from 'vue-router'
+import { getFromLocalStorage, LocalStorageKey } from '@/utils/localStorage'
+
+const router = useRouter()
+
+const isAuthTokenHave = getFromLocalStorage(LocalStorageKey.JWT_TOKEN)
+
+if (!isAuthTokenHave) router.push('/login')
 
 const transactions = ref([
   {

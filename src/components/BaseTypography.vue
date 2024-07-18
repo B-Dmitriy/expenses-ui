@@ -3,15 +3,15 @@
     v-if="props.type === 'h-page'"
     class="ex-typography__page-h"
   >
-    {{ text }}
+    {{ props.text }}
   </h1>
   <span 
     v-else-if="type === 'error'"
     class="ex-typography__error"
   >
-    {{ text }}
+    {{ props.text }}
   </span>
-  <span v-else>{{ text }}</span>
+  <span v-else>{{  props.text }}</span>
 </template>
 
 <script setup lang="ts">
