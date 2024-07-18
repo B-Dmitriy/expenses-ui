@@ -55,6 +55,7 @@
             @click="goToRegistration"
           />
         </p>
+
         <Button
           class="login-card__submit"
           type="submit"
@@ -164,4 +165,9 @@ const submit = () => {
   margin-bottom: 24px;
   text-align: center;
 }
+
+.login-card__submit-btn.p-button {
+  padding: 8px 0;
+}
+
 </style>
